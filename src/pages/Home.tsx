@@ -1,7 +1,13 @@
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useParams } from "react-router-dom";
+import { loadUser } from "../api/auth";
 
 export default function Home() {
-    return <>
-        <Link to={'/sign-in'}>SignIn</Link>
+  const params = useParams();
+
+  return (
+    <>
+      <Link to={"/sign-in"}>SignIn</Link>
     </>
+  );
 }

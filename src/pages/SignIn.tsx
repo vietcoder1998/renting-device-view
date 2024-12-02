@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { SignInError } from "../types/signin";
 import { SignInErrorProptype } from "../protypes/signin";
 import { loginUser } from "../api/auth";
+import { saveToken } from "../cook";
 
 const SignIn = () => {
   const [username, setUsername] = useState("");
@@ -32,11 +33,13 @@ const SignIn = () => {
     setError(SignInErrorProptype); // Reset error before submitting
 
     loginUser(data)
-      .then((response) => response.json())
       .then((responseData) => {
+        console.log("🚀 ~ .then ~ responseData:", responseData)
         if (responseData.redirect) {
           window.location.replace(responseData.redirect);
         }
+
+        saveToken(responseData.token)
       })
       .catch((response) => {
         switch (response.error) {
