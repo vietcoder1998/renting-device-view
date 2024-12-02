@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { SignInError } from "../types/signin";
 import { SignInErrorProptype } from "../protypes/signin";
+import { loginUser } from "../api/auth";
 
 const SignIn = () => {
   const [username, setUsername] = useState("");
@@ -22,15 +23,15 @@ const SignIn = () => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    const data = { name: username, email: password };
+    const data = {
+      name: username,
+      email: password,
+      directUrl: "http://localhost:3000",
+    };
 
     setError(SignInErrorProptype); // Reset error before submitting
 
-    fetch("http://localhost:7100/auth/api/v1/mock", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    })
+    loginUser(data)
       .then((response) => response.json())
       .then((responseData) => {
         if (responseData.redirect) {
@@ -58,10 +59,7 @@ const SignIn = () => {
 
   return (
     <div>
-      Sample
-        name: administrator
-        email: administrator@fakedomain.com
-
+      Sample name: administrator email: administrator@fakedomain.com
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="username">Username</label>
