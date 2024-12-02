@@ -1,15 +1,29 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import io from "socket.io-client";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
+
+const socket = io("localhost:7100");
+export type AppSocket = typeof socket;
+export const AppContext = React.createContext({
+  socket: {} as AppSocket,
+});
+
 root.render(
   <React.StrictMode>
-    <App />
+    <AppContext.Provider
+      value={{
+        socket: socket,
+      }}
+    >
+      <App />
+    </AppContext.Provider>
   </React.StrictMode>
 );
 
